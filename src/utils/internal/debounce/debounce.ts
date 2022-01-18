@@ -1,5 +1,7 @@
+import { Debounce } from "./debounce.types";
+
 const timeouts: Map<string, any> = new Map();
-export const debounce = (callback: Function, thisArg: any, parameters: any[], timeout: number) => {
+export const debounce: Debounce = (callback: Function, thisArg: any, parameters: any[], timeout: number) => {
     if (!timeouts.has(callback.name)) {
         timeouts.set(callback.name,
             setTimeout(() => {

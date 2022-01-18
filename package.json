@@ -5,7 +5,7 @@
   "main": "dist/frontendtools.min.js",
   "scripts": {
     "build": "npm run compile && npm run bundle",
-    "bundle": "webpack --config webpack.config.js",
+    "bundle": "webpack --config webpack.config.js && npm run clean-ts-build",
     "compile": "npm run clean-dist && npm run clean-ts-build && tsc",
     "clean-ts-build": "shx rm -rf ./build",
     "clean-dist": "shx rm -rf ./dist",

@@ -1,3 +1,3 @@
-declare interface Window extends globalThis {
+declare interface Window {
     FrontendTools: import("./types").FrontendTools
 }

@@ -1,14 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>Frontend Tools tests</title>
         <script src="./dist/frontendtools.min.js"></script>
-        <script></script>
+        <script>
+            window.debounceTests = (function() {
+                const counters = {
+                    wrapperCalls: 0,
+                    callbackCalls: 0
+                };
+
+                const callback = function () {
+                    counters.callbackCalls++;
+                    console.log(`Time: ${new Date().toISOString()}`);
+                }
+                const test = function () {
+                    counters.wrapperCalls++;
+                    FrontendTools.debounce(callback, null, [], 500);
+                }
+
+                const checkCalls = function () {
+                    console.clear();
+                    console.log(`number of wrapper calls: ${counters.wrapperCalls}`);
+                    console.log(`number of callback calls: ${counters.callbackCalls}`);
+                }
+
+                const resetCalls = function () {
+                    console.clear();
+                    counters.wrapperCalls = 0;
+                    counters.callbackCalls = 0;
+                }
+
+                return {
+                    test,
+                    checkCalls,
+                    resetCalls
+                }
+            })();
+        </script>
     </head>
     <body>
         <div class="content">
             <div id="header"><h1>Frontend tools tests</h1></div>
+            <div id="tests">
+                <div id="debounce-tests">
+                    <div id="debounce-header"><h2>Debounce tests</h2></div>
+                    <div id="debounce-test-buttons">
+                        <button id="debounce-click-button-test" onclick="debounceTests.test()">Debounce test</button>
+                        <button id="debounce-click-button-check-calls" onclick="debounceTests.checkCalls()">Check calls</button>
+                        <button id="debounce-click-button-reset-calls" onclick="debounceTests.resetCalls()">Reset calls</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

@@ -38,6 +38,53 @@
                     resetCalls
                 }
             })();
+
+            window.eventEmitterTests = (function() {
+                const ids = {
+                    message: 'event-emitter-message',
+                    input: 'event-emitter-textbox',
+                    dateTime: 'event-emitter-date-time'
+                };
+                const channels = {
+                    eventHi: 'event-hi',
+                    dateTime: 'date-time'
+                };
+
+                const messageProcess = function (message) {
+                    document.getElementById(ids.message).innerHTML = `<b>Hi, ${message}</b>`;
+                };
+
+                const dateTimeProcess = function () {
+                    const date = new Date();
+                    const hour = date.getHours();
+                    const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+                    const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+                    document.getElementById(ids.dateTime).innerHTML = `<b>Time: ${hour}:${minute}:${seconds}</b>`;
+                }
+
+                FrontendTools.eventEmitter.on(channels.eventHi, (message) => messageProcess(message));
+                FrontendTools.eventEmitter.on(channels.dateTime, dateTimeProcess);
+
+                const clearMessage = function () {
+                    document.getElementById(ids.message).innerHTML = "";
+                    document.getElementById(ids.input).value = "";
+                };
+
+                const test = function (message) {
+                    FrontendTools.eventEmitter.emit(channels.eventHi, message);
+                    document.getElementById(ids.input).value = "";
+                };
+
+                setInterval(() => {
+                    FrontendTools.eventEmitter.emit(channels.dateTime);
+                }, 500);
+
+                return {
+                    clearMessage,
+                    test,
+                    ids
+                };
+            })();
         </script>
     </head>
     <body>
@@ -50,6 +97,16 @@
                         <button id="debounce-click-button-test" onclick="debounceTests.test()">Debounce test</button>
                         <button id="debounce-click-button-check-calls" onclick="debounceTests.checkCalls()">Check calls</button>
                         <button id="debounce-click-button-reset-calls" onclick="debounceTests.resetCalls()">Reset calls</button>
+                    </div>
+                </div>
+                <div id="event-emitter-tests">
+                    <div id="event-emitter-header"><h2>Debounce tests</h2></div>
+                    <div id="event-emitter-test-buttons">
+                        <input type="text" id="event-emitter-textbox" placeholder="Your message..."/>
+                        <button id="event-emitter-click-button-test" onclick="eventEmitterTests.test(document.getElementById(eventEmitterTests.ids.input).value)">Event Emitter test</button>
+                        <button id="event-emitter-click-button-reset-message" onclick="eventEmitterTests.clearMessage()">Reset message</button>
+                        <div id="event-emitter-message"></div>
+                        <div id="event-emitter-date-time"></div>
                     </div>
                 </div>
             </div>

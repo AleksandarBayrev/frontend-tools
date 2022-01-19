@@ -51,7 +51,7 @@
                 };
 
                 const messageProcess = function (message) {
-                    document.getElementById(ids.message).innerHTML = `<b>Hi, ${message}</b>`;
+                    document.getElementById(ids.message).innerHTML = message ? `<b>Hi, ${message} :)</b>` : '<b>Please input something! Otherwise, Hi :)</b>';
                 };
 
                 const dateTimeProcess = function () {

@@ -6,9 +6,21 @@
         <script src="./dist/frontendtools.min.js"></script>
         <script>
             window.debounceTests = (function() {
+                const ids = {
+                    setTimeout: 'debounce-set-timeout',
+                    debounceTimeoutValue: 'debounce-timeout-value',
+                    timeoutInput: 'debounce-timeout-input'
+                };
+
                 const counters = {
                     wrapperCalls: 0,
                     callbackCalls: 0
+                };
+
+                const defaultTimeout = 500;
+
+                const props = {
+                    debounceTimeout: defaultTimeout
                 };
 
                 const callback = function () {
@@ -32,10 +44,31 @@
                     counters.callbackCalls = 0;
                 }
 
+                const setDebounceTimeout = function (timeout) {
+                    let result = defaultTimeout
+                    if (typeof timeout !== 'number') {
+                        result = timeout
+                    }
+                    props.debounceTimeout = result;
+                    updateTimeoutDiv();
+                }
+
+                const resetDebounceTimeout = function () {
+                    props.debounceTimeout = defaultTimeout;
+                }
+
+                const updateTimeoutDiv = function () {
+                    document.getElementById(ids.debounceTimeoutValue).innerHTML = `Timeout: ${props.debounceTimeout}`;
+                }
+
+                window.addEventListener('load', () => updateTimeoutDiv());
                 return {
+                    ids,
                     test,
                     checkCalls,
-                    resetCalls
+                    resetCalls,
+                    setDebounceTimeout,
+                    resetDebounceTimeout
                 }
             })();
 
@@ -94,6 +127,11 @@
                 <div id="debounce-tests">
                     <div id="debounce-header"><h2>Debounce tests</h2></div>
                     <div id="debounce-test-buttons">
+                        <div>
+                            <input type="text" id="debounce-timeout-input" />
+                            <div><button id="debounce-set-timeout" onclick="debounceTests.setDebounceTimeout(document.getElementById(debounceTests.ids.timeoutInput).value)">Set debounce timeout</button></div>
+                            <div id="debounce-timeout-value"></div>
+                        </div>
                         <button id="debounce-click-button-test" onclick="debounceTests.test()">Debounce test</button>
                         <button id="debounce-click-button-check-calls" onclick="debounceTests.checkCalls()">Check calls</button>
                         <button id="debounce-click-button-reset-calls" onclick="debounceTests.resetCalls()">Reset calls</button>

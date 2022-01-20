@@ -77,7 +77,8 @@
                     checkCalls,
                     resetCalls,
                     setDebounceTimeout,
-                    resetDebounceTimeout
+                    resetDebounceTimeout,
+                    defaultTimeout
                 }
             })();
 
@@ -138,7 +139,10 @@
                     <div id="debounce-test-buttons">
                         <div>
                             <input type="text" id="debounce-timeout-input" />
-                            <div><button id="debounce-set-timeout" onclick="debounceTests.setDebounceTimeout(document.getElementById(debounceTests.ids.timeoutInput).value)">Set debounce timeout</button></div>
+                            <div>
+                                <div><button id="debounce-set-timeout" onclick="debounceTests.setDebounceTimeout(document.getElementById(debounceTests.ids.timeoutInput).value)">Set debounce timeout</button></div>
+                                <div><button id="debounce-set-timeout" onclick="debounceTests.setDebounceTimeout(debounceTests.defaultTimeout)">Set default timeout</button></div>
+                            </div>
                             <div id="debounce-timeout-value"></div>
                         </div>
                         <button id="debounce-click-button-test" onclick="debounceTests.test()">Debounce test</button>

@@ -30,7 +30,7 @@
                 }
                 const test = function () {
                     counters.wrapperCalls++;
-                    FrontendTools.debounce(callback, null, [], 500);
+                    FrontendTools.debounce(callback, null, [], props.debounceTimeout);
                 }
 
                 const checkCalls = function () {
@@ -46,11 +46,19 @@
                 }
 
                 const setDebounceTimeout = function (timeout) {
-                    let result = defaultTimeout
-                    if (typeof timeout !== 'number') {
-                        result = timeout
+                    try {
+                        let result = defaultTimeout
+                        if (typeof timeout !== 'undefined' && timeout !== null) {
+                            result = parseInt(timeout)
+                        }
+                        if (result === NaN) {
+                            result = defaultTimeout
+                        }
+                        props.debounceTimeout = result;
+                    } catch (err) {
+                        result = defaultTimeout
                     }
-                    props.debounceTimeout = result;
+                    document.getElementById(ids.timeoutInput).value = '';
                     updateTimeoutDiv();
                 }
 
